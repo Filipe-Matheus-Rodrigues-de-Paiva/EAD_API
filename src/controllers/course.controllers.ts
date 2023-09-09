@@ -7,8 +7,7 @@ const createCourse = async (request: Request, response: Response): Promise<Respo
 }
 
 const readCourses = async (request: Request, response: Response): Promise<Response> => {
-    const courses = await coursesServices.read()
-    return response.status(200).json(courses)
+    return response.status(200).json(response.locals.pagination)
 }
 
 const retrieveCourse = async (request: Request, response: Response): Promise<Response> => {

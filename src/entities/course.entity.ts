@@ -21,7 +21,7 @@ class Course {
     end_date: string;
 
     /* Relação com accounts - professor (1:N) */
-    @ManyToOne(() => Account, (account) => account.courses, {})
+    @ManyToOne(() => Account, (account) => account.courses, { nullable: true })
     instructor: Account['id'] | null | undefined
 
     /* Relação com content - 1:N */

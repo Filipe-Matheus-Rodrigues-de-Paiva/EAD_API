@@ -5,6 +5,10 @@ import verifyToken from "./verifyToken.middlewares"
 import verifyUserPermission from "./verifyUserPermission.middlewares"
 import verifyCourseNameAlreadyExists from "./verifyCourseNameAlreadyExists.middlewares"
 import verifyCourseExists from "./verifyCourseExists.middlewares"
+import verifyContentExists from "./verifyContentExists.middlewares"
+import verifyEnrolledStudent from "./verifyEnrolledStudent.middleware"
+import pagination from "./pagination.middleware"
+import verifyIsAdminOrNot from "./isAdminOrStudent.middleware"
 
 export default{
     validateBody,
@@ -13,5 +17,9 @@ export default{
     verifyToken,
     verifyUserPermission,
     verifyCourseNameAlreadyExists,
-    verifyCourseExists
+    verifyCourseExists,
+    verifyContentExists,
+    verifyEnrolledStudent,
+    pagination,
+    verifyIsAdminOrNot
 }

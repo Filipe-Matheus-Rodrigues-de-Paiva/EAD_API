@@ -1,8 +1,8 @@
 import { AppDataSource } from "../data-source"
 import { Account, Course } from "../entities"
 import AppError from "../error"
-import { TAccountRepo, TCourseRead, TCourseRepository, TCourseReturn, TCreateCourse } from "../interfaces"
-import { courseCreationSchema, courseUpdateSchema } from "../schemas"
+import { TAccountRepo, TCourseRead, TCourseRepository, TCourseReturn, TCourseUpdate, TCourseUpdateReturn, TCreateCourse } from "../interfaces"
+import { courseCreationSchema, courseUpdateReturn } from "../schemas"
 
 const create = async ({instructor, ...payload}: TCreateCourse): Promise<TCourseReturn> => {
     const courseRepo: TCourseRepository = AppDataSource.getRepository(Course)
@@ -28,18 +28,19 @@ const create = async ({instructor, ...payload}: TCreateCourse): Promise<TCourseR
 const read = async (): Promise<TCourseRead> => {
     const courseRepo: TCourseRepository = AppDataSource.getRepository(Course)
 
-    const courses: Array<Course> = await courseRepo.find({
-        relations: { contents: true, studentsCourses: true }
+    const courses = await courseRepo.find({
+        relations: { contents: true, studentsCourses: {student: true} },
+        select: { id: true, name: true, status: true, start_date: true, end_date: true, contents: true, studentsCourses: { id: true, student: { id: true, username: true, email: true }, status: true } }
     })
     
     return courses
 }
 
-const update = async (payload: any, course: Course): Promise<any> => {
+const update = async (payload: TCourseUpdate, course: Course): Promise<TCourseUpdateReturn> => {
     const courseRepo = AppDataSource.getRepository(Course)
-    const updatedCourse = await courseRepo.save({course, ...payload})
+    const updatedCourse = await courseRepo.save({...course, ...payload})
 
-    return courseUpdateSchema.parse(updatedCourse)
+    return courseUpdateReturn.parse(updatedCourse)
 }
 
 const destroy = async (course: Course): Promise<void> => {

@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { courseCreationSchema, coursePayloadSchema, courseUpdateSchema } from "../schemas"
+import { courseCreationSchema, coursePayloadSchema, courseUpdateReturn, courseUpdateSchema } from "../schemas"
 import { DeepPartial, Repository } from "typeorm"
 import { Course } from "../entities"
 
@@ -13,10 +13,13 @@ type TCourseRead = Array<Course>
 
 type TCourseUpdate = DeepPartial<typeof courseUpdateSchema>
 
+type TCourseUpdateReturn = z.infer<typeof courseUpdateReturn>
+
 export {
     TCourseReturn,
     TCreateCourse,
     TCourseRepository,
     TCourseRead,
-    TCourseUpdate
+    TCourseUpdate,
+    TCourseUpdateReturn
 }

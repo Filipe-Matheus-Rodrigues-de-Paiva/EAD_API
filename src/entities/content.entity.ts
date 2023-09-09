@@ -12,8 +12,8 @@ class Content {
     @Column({ type: "text" })
     content: string;
 
-    @Column({ type: "varchar", length: 200 })
-    video_url: string;
+    @Column({ type: "varchar", length: 200, nullable: true })
+    video_url: string | null | undefined
 
     @ManyToOne(() => Course, (course) => course.contents)
     course: Course;

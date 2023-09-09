@@ -3,7 +3,7 @@ import { z } from "zod"
 const courseStatusEnum = z.enum(["not started", "in progress", "finished"]).default("not started")
 
 const courseCreationSchema = z.object({
-    id: z.string().optional(),
+    id: z.string(),
     name: z.string().max(100),
     status: courseStatusEnum,
     start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -13,7 +13,7 @@ const courseCreationSchema = z.object({
     studentsCourses: z.array(z.unknown()).optional(),
 })
 
-const coursePayloadSchema = courseCreationSchema.omit({ 
+const coursePayloadSchema = courseCreationSchema.omit({
     id: true,
     status: true 
 })
@@ -24,4 +24,13 @@ const courseUpdateSchema = courseCreationSchema.omit({
     studentsCourses: true
 }).partial()
 
-export { courseCreationSchema, coursePayloadSchema, courseUpdateSchema }
+const courseUpdateReturn = z.object({
+    id: z.string(),
+    name: z.string().max(100),
+    status: courseStatusEnum,
+    start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    instructor: z.string().nullish().optional()
+})
+
+export { courseCreationSchema, coursePayloadSchema, courseUpdateSchema, courseUpdateReturn }
